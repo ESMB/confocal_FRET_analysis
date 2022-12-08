@@ -13,10 +13,12 @@ import csv
 import pandas as pd
 import os
 from matplotlib.colors import LogNorm
+
+# This is the array of folders we want to analyse
 pathlist=[]
 
 # Where to store the overall file containing means etc. for each experiment.
-path_root=r"//Users/Mathew/Documents/Current analysis/Hannah_Factor_H/30_11_22/"
+path_root=r"/Users/Mathew/Documents/Current analysis/Hannah_Factor_H/30_11_22/"
 
 # # # Foldert to analyse here:
 pathlist.append(r"/Users/Mathew/Documents/Current analysis/Hannah_Factor_H/30_11_22/Prep_1_RFP_elution/")
@@ -33,12 +35,12 @@ channelB_thresh=10     # Threshold for Channel B (Red).
 threshold=50
 
 # Type of thresholding: 'AND' or 'SUM'
-thresh_type='AND'
+thresh_type='SUM'
 
 # Autofl and cross-talk
 channelA_AF=0       # Autofluorescence
 channelB_AF=0
-xtalk=0         # Cross-talk from A to B
+xtalk=0             # Cross-talk from A to B
 
 
 #  This is the code to load the files
@@ -89,8 +91,8 @@ for path in pathlist:
     plt.plot(channelB_arr_inv,color='red')
     plt.xlabel('Bin number')
     plt.ylabel('Intensity (photons)')
-    plt.xlim(1000,2000)
-    plt.ylim(-25,25)
+    plt.xlim(0,10000)
+    plt.ylim(-100,100)
     plt.savefig(path+'/'+'example_trace.pdf')
     plt.show()
     
@@ -107,6 +109,7 @@ for path in pathlist:
         channelA_events=channelA_arr[((channelA_arr+channelB_arr)>threshold)]  # A coincident events             
         channelB_events=channelB_arr[((channelA_arr+channelB_arr)>threshold)]
     # Calculate FRET efficiency from data
+        
     
     FRET_events=channelB_events/(channelB_events+channelA_events)
    
