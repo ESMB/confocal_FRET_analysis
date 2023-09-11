@@ -222,6 +222,9 @@ plt.show()
 
 measurements.to_csv(path + '/' + pre_string+'_Metrics.csv', sep = '\t')
 
+measurements2=analyse_labelled_image(labelled,donor_flat)
+measurements2.to_csv(path + '/' + pre_string+'_Donor_Metrics.csv', sep = '\t')
+
 # Now need to look at coincident only:
 
 coinc_binary=antibody_binary*acceptor_binary
@@ -230,3 +233,5 @@ number,labelled=label_image(coinc_binary)
 print("%d feautres were detected in the image."%number)
 measurements=analyse_labelled_image(labelled,fret_im)
 measurements.to_csv(path + '/' + pre_string+'_Coinc_Metrics.csv', sep = '\t')
+measurements2=analyse_labelled_image(labelled,donor_flat)
+measurements2.to_csv(path + '/' + pre_string+'_Donor_Coinc_Metrics.csv', sep = '\t')
