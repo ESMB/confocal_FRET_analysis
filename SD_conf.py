@@ -158,6 +158,7 @@ donor_flat=donor
 acceptor_flat=acceptor
 FRET_flat=FRET
 
+
 # Threshold antibody:
     
 ab_thresh,antibody_binary=threshold_image_otsu(antibody)
@@ -220,11 +221,31 @@ plt.title('Cluster lengths',size=20)
 plt.savefig(path+pre_string+"Lengths.pdf")
 plt.show()
 
+
+
+df_output = pd.DataFrame(areas)
+df_output['Max Length']=length
+
+df_output['FRET_efficiency']=frets
+
+
+
 measurements.to_csv(path + '/' + pre_string+'_Metrics.csv', sep = '\t')
 
+# Look at donor intensities:
 measurements2=analyse_labelled_image(labelled,donor_flat)
-measurements2.to_csv(path + '/' + pre_string+'_Donor_Metrics.csv', sep = '\t')
+df_output['Donor_intensity']=measurements2['mean_intensity']
 
+# Look at acceptor intensities:
+measurements3=analyse_labelled_image(labelled,acceptor_flat)
+df_output['Acceptor_intensity']=measurements3['mean_intensity']
+
+ # Look at antibody intensities:
+    
+measurements4=analyse_labelled_image(labelled,antibody)
+df_output['Antibody_intensity']=measurements4['mean_intensity']   
+    
+    
 # Now need to look at coincident only:
 
 coinc_binary=antibody_binary*acceptor_binary
@@ -235,3 +256,14 @@ measurements=analyse_labelled_image(labelled,fret_im)
 measurements.to_csv(path + '/' + pre_string+'_Coinc_Metrics.csv', sep = '\t')
 measurements2=analyse_labelled_image(labelled,donor_flat)
 measurements2.to_csv(path + '/' + pre_string+'_Donor_Coinc_Metrics.csv', sep = '\t')
+
+
+df_output.to_csv(path + '/' + pre_string+'Intensity_and_size_info.csv', sep = '\t')
+
+
+
+
+
+
+
+
